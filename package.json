@@ -1,0 +1,24 @@
+{
+  "name": "support_system",
+  "version": "1.0.0",
+  "description": "support management system",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arunbandari/support-system.git"
+  },
+  "author": "arun",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arunbandari/support-system/issues"
+  },
+  "homepage": "https://github.com/arunbandari/support-system#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "mongoose": "^5.0.11"
+  }
+}
