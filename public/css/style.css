@@ -1,0 +1,31 @@
+body{font-family: Roboto, 'Segoe UI', Tahoma, sans-serif !important;background-color: #f1f1f1;}
+    .navbar-default {background-color: rgb(51, 103, 214);box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);}
+    .navbar-default .navbar-brand {color: #fff;padding:3px;}
+    .navbar-default .navbar-brand img{height: 45px;width: 100px;}
+    .navbar-default .navbar-nav>li>a {color: #fff;}
+    .navbar{padding: 0px;margin: 0px;border-radius: 0px;border:none;margin-bottom: 30px;}
+    .panel{box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);border-radius: 0px;}
+    .panel-default>.panel-heading{padding: 15px !important;font-weight: bold;}
+    .navbar-default .navbar-brand:hover {color: #fff;};
+    .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
+        color: #fff !important;
+    }
+    .table-responsive {
+    width: 100%;
+    margin-bottom: 15px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    border: 1px solid #DDD;
+}
+th {
+    white-space: nowrap;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: gainsboro; 
+    border-radius: 10px;
+    height: 5px;
+}
+::-webkit-scrollbar{height: 5px;}

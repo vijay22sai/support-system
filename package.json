@@ -17,8 +17,11 @@
   },
   "homepage": "https://github.com/arunbandari/support-system#readme",
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
     "express": "^4.16.3",
+    "jsonwebtoken": "^8.2.0",
     "mongoose": "^5.0.11"
   }
 }
