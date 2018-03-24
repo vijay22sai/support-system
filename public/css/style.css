@@ -29,3 +29,11 @@ th {
     height: 5px;
 }
 ::-webkit-scrollbar{height: 5px;}
+.support_brand{
+        height: 100px;
+    width: 150px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-bottom: 10px;
+}
