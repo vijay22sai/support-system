@@ -77,7 +77,7 @@ router.post('/authenticate',function(req,res){
 	});
 });
 
-//function to change password
+//function to change password(forgot pwd)
 router.post('/change_pwd', function(req,res){
 	User.findOne({user_id : req.body.user_id},function(err,user){
 			if(!bcrypt.compareSync(req.body.password,user.password)){
@@ -93,6 +93,25 @@ router.post('/change_pwd', function(req,res){
 			}
 	});
 
+});
+
+//function to change password(change)
+router.post('/change_pswd', function(req,res){
+	let d=jwt.decode(req.cookies.token,"support");
+	User.findOne({user_id : d.user_id},function(err,user){
+			if(!bcrypt.compareSync(req.body.password,user.password)){
+				console.log("invalid");
+				res.send('Invalid password');
+			}
+			else{
+				hashed_password   = bcrypt.hashSync(req.body.new_password,10);
+				User.updateOne({user_id : d.user_id},{$set:{
+             		password : hashed_password
+				}},(err,data) => {
+					res.send("updated");
+				});
+			}
+	});
 });
 
 router.post("/reset_password_setup",function(req,res){
