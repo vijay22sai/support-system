@@ -7,12 +7,12 @@ const Client     = require('../models/client_model');
 //function to add new license
 router.post('/add',function(req,res){
      let license=new License({
-     	client_id                 :  req.body.client_id,
-     	product                   :  req.body.product,
-     	no_of_licenses            :  req.body.no_of_licenses,
-     	licence_procurement_date  :  req.body.lpd,
-	    support_renewal_date      :  req.body.srd,
-	    certificate_status        :  req.body.certificate_status
+     	client_id                 :  req.body.license.client_id,
+     	product                   :  req.body.license.product,
+     	no_of_licenses            :  req.body.license.no_of_licenses,
+     	licence_procurement_date  :  req.body.license.lpd,
+	    support_renewal_date      :  req.body.license.srd,
+	    certificate_status        :  req.body.license.certificate_status
      });
      license.save( (err,data) =>{
      	console.log(data._id);
@@ -30,7 +30,7 @@ router.post('/add',function(req,res){
 
 //function to get all licenses
 router.get('/all', (req,res) =>{
-	License.find({},(err,data) => {
+	License.find({client_id:req.query.id},(err,data) => {
         res.send(data);
 	});
 	

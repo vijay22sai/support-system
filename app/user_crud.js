@@ -96,18 +96,46 @@ router.post('/change_pwd', function(req,res){
 });
 
 router.post("/reset_password_setup",function(req,res){
-	console.log(req.body.user_id);
 	let payload  = { user_id : req.body.user_id };
-	let token    = jwt.sign(payload, "support");
-	 let mailOptions = {
-        from: '"Fred Foo 👻" <arunbandari0@example.com>', // sender address
-        to: 'arunbandari2@gmail.com', // list of receivers
-        subject: 'Hello ✔', // Subject line
-        text: 'Hello world?', // plain text body
-        html: '<b>Hello world?</b>' // html body
-    };
-    mail(mailOptions);
+	let token    = jwt.sign(payload, "support",{expiresIn: 60});
+	User.findOne({user_id : req.body.user_id},function(err,user){
+        if(!user){
+			res.send("No user exits with this id!");
+		}
+		else{
+		let mailOptions = {
+		        from   : '"Applaud Support 👻" <arunbandari0@example.com>', // sender address
+		        to     :  user.email, // list of receivers
+		        subject: 'Password reset Link ✔', // Subject line
+		        text   : 'Please click on below link to reset your password', // plain text body
+		        html   : 'http://localhost:3000/#!/reset?id='+token // html body
+		    };
+		    mail(mailOptions);
+		    res.send("Password Reset Link has been sent to your mail, please check your mail..");	
+		}
+	});
+});
 
+router.post("/reset",function(req,res){
+	let token = req.body.token;
+
+	jwt.verify(token, "support", function(err, decoded) {
+					hashed_password   = bcrypt.hashSync(req.body.password,10);
+					User.updateOne({user_id : decoded.user_id},{$set:{
+	             		password : hashed_password
+					}},(err,data) => {
+						res.send(data);
+					});
+	});
+});
+
+
+router.get('/validate_token',function(req,res){
+	let token = req.query.token;
+	jwt.verify(token,"support", function(err, decoded) {
+		  if(err) res.json({"status":false});
+		  else res.json({"status":true});
+	});
 });
 
 module.exports = router;

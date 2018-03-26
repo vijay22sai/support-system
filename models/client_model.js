@@ -8,6 +8,7 @@ module.exports = mongoose.model('clients', new Schema({
 	partners		 			: String,
 	status 						: String,
 	license_array               : [{type: mongoose.Schema.Types.ObjectId, ref: 'licenses'}],
+	primary_contact_name        : String,
 	primary_email               : String,
 	primary_contact             : Number,
 	other                       : String

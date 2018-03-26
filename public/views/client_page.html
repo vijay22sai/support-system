@@ -1,0 +1,120 @@
+  <div class="container">
+  	<div class="col-md-4">
+  		 <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">CLIENT PROFILE
+                		<button href="#" class="btn btn-default panel-right">Edit Info</button>
+                </div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6">
+            <div class="">
+                <div class="row">
+                    <div class="col-sm-6 col-md-12">
+                        <h4>
+                            National Trust</h4>
+                        <small><cite title="Bristol, UK">Bristol, UK <i class="glyphicon glyphicon-map-marker">
+                        </i></cite></small>
+                        <p>
+                            <i class="glyphicon glyphicon-envelope"></i>email@ntrust.com
+                            <br />
+                            <i class="glyphicon glyphicon-globe"></i><a href="http://www.jquery2dotnet.com">www.nationaltrust.co.uk</a>
+                            <br />
+                            <i class="glyphicon glyphicon-gift"></i>June 02, 1988</p>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+            </div>
+  	</div>
+  	<div class="col-md-8">
+        <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">LICENSED PRODUCTS
+                		           <button href="#" class="btn btn-default panel-right" data-toggle="modal" data-target="#exampleModal" ng-click="get_services()">Add License</button>
+                </div>
+
+              
+                <!-- List group -->
+                <div class="table-responsive">
+                <table class="table table-bordered">
+                        <thead>
+                                <tr>
+                                        <th>No.</th>
+                                        <th>License</th>
+                                        <th>Count</th>
+                                        <th>Procurement Date</th>
+                                        <th>Renewal Date</th>
+                                        <th>Cerficate Status</th>
+                                        <th>Remarks</th>
+                                    </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="license in licenses">
+                            <td>{{($index+1)}}</td>
+                            <td>{{license.product}}</td>
+                            <td>{{license.no_of_licenses}}</td>
+                            <td>{{license.licence_procurement_date}}</td>
+                            <td>{{license.support_renewal_date}}</td>
+                            <td>{{license.certificate_status}}</td>
+                            <td><button class="btn btn-primary">Edit</button></td>
+                          </tr>
+                          <tr>
+                        </tbody>
+                      </table>
+                      </div>
+              </div>
+              </div>
+  </div>
+
+
+
+
+   <!-- Modal for adding-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        Add New License
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+  <div class="form-group">
+    <label for="serviceselect">License</label>
+     <select name="repeatSelect" id="repeatSelect" ng-model="newl.product" class="form-control">
+      <option ng-repeat="option in services" value="{{option.service_handle}}">{{option.service}}</option>
+    </select>
+  </div>
+
+    <div class="form-group">
+    <label for="Count">Count</label>
+    <input type="text" ng-model="newl.no_of_licenses" class="form-control" id="Count" placeholder="Number of Licenses">
+  </div>
+  <div class="form-group">
+    <label for="Procurement">Procurement Date</label>
+    <input type="date" ng-model="newl.lpd" class="form-control" id="Procurement" placeholder="Partners">
+  </div>
+  <div class="form-group">
+    <label for="Renewal">Renewal Date</label>
+    <input type="date" ng-model="newl.srd" class="form-control" id="Renewal" placeholder="Products Licensed">
+  </div>
+  <div class="form-group">
+    <label for="Status">Cerficate Status</label>
+    <input type="text" ng-model="newl.certificate_status" class="form-control" id="Status" placeholder="Status of License">
+  </div>
+</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="add_license()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

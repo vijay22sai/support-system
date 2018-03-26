@@ -1,0 +1,74 @@
+<div class="container" ng-init="get_all_services()">
+	
+	<div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">SERVICES OFFERED
+                		           <button href="#" class="btn btn-default panel-right" data-toggle="modal" data-target="#exampleModal">Add Service</button>
+                </div>
+
+              
+                <!-- List group -->
+                <div class="table-responsive">
+                <table class="table table-bordered">
+                        <thead>
+                                <tr>
+                                        <th>No.</th>
+                                        <th>Service</th>
+                                        <th>Service Handle</th>
+                                        <th>About Service</th>
+                                        <th>Actions</th>
+                                    </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="service in services">
+                            <td>{{($index+1)}}</td>
+                            <td>{{service.service}}</td>
+                            <td>{{service.service_handle}}</td>
+                            <td>{{service.description}}</td>
+                            <td><button class="btn btn-primary">Edit</button></td>
+                          </tr>
+                          <tr>
+                        </tbody>
+                      </table>
+                      </div>
+              </div>
+</div>
+
+
+   <!-- Modal for adding-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        Add New Service
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+  <div class="form-group">
+    <label for="License">Service Name</label>
+    <input type="text" ng-model="service.service" class="form-control" id="License" aria-describedby="emailHelp" placeholder="Service">
+  </div>
+  <div class="form-group">
+    <label for="Count">SERVICE CODE</label>
+    <input type="text" ng-model="service.handle" class="form-control" id="Count" placeholder="Service handle">
+  </div>
+    <div class="form-group">
+    <label for="Count">COLOR CODE</label>
+    <input type="text" ng-model="service.colour" class="form-control" id="Color" placeholder="Service Color">
+  </div>
+  <div class="form-group">
+    <label for="Procurement">About Service</label>
+    <textarea ng-model="service.description" class="form-control" id="Procurement" placeholder="Service Description"></textarea>
+  </div>
+</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="add_service()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

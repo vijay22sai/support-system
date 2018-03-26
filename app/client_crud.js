@@ -1,11 +1,10 @@
-const express = require('express');
-const router  = express.Router();
+const express   = require('express');
+const router    = express.Router();
 const bodyParser= require('body-parser');
-router.use(bodyParser.urlencoded({extended:false}));
-router.use(bodyParser.json({}));
-
-const Client   = require('../models/client_model.js');
-const license  = require('../models/license_model.js');
+const fs        = require('fs');
+const path      = require('path');
+const Client    = require('../models/client_model.js');
+const license   = require('../models/license_model.js');
 
 // function to get all clients info
 router.get('/clients',function(req,res){
@@ -16,15 +15,13 @@ router.get('/clients',function(req,res){
 
 //function to add new client
 router.post('/add',function(req,res){
-
+	
 	let client = new Client({
-		client_name      		    :  req.body.client_name,
-		certificate_sent  			:  req.body.certificate_sent,
-	    partners          			:  req.body.partners,
-		status 						:  req.body.status,
-		primary_email               :  req.body.primary_email,
-		primary_contact             :  req.body.primary_contact,
-		other                       :  req.body.other
+		client_name      		    :  req.body.client.name,
+	    partners          			:  req.body.client.partner,
+		primary_email               :  req.body.client.email,
+		primary_contact             :  req.body.client.contact,
+		primary_contact_name        :  req.body.client.contact_name
 	});
 	client.save((err, data) =>{
 		console.log(data);

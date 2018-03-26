@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Testing bootstrap</title>
+	<title>Support Sheet Dashboard</title>
   <base href="/">
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -12,6 +12,8 @@
 	<!-- custom css -->
 	<link rel="stylesheet" type="text/css" href="./css/style.css">
 	<!-- google fonts -->
+  <!-- favicon -->
+  <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   <!--controller scripts-->
   
@@ -22,6 +24,10 @@
   <script type="text/javascript" src="/js/app_routes.js"></script>
   <script type="text/javascript" src="/js/controllers/loginCtrl.js"></script>
   <script type="text/javascript" src="/js/controllers/resetCtrl.js"></script>
+  <script type="text/javascript" src="/js/controllers/resetTokenCtrl.js"></script>
+  <script type="text/javascript" src="/js/controllers/clientCtrl.js"></script>
+  <script type="text/javascript" src="/js/controllers/singleClientCtrl.js"></script>
+  <script type="text/javascript" src="/js/controllers/serviceCtrl.js"></script>
 </head>
 <body ng-app="support" ng-controller="supportCtrl">
 
@@ -35,15 +41,15 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
- <a class="navbar-brand" href="#"><img src="./logo.png" class="brand-image"></img></a>
+ <a class="navbar-brand" href="#!/dashboard"><img src="./logo.png" class="brand-image"></img></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
         	<div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav navbar-right">
                           <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Actions <span class="caret"></span></a>
+                            <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Actions <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                              <li><a href="/dashboard">Add New Client</a></li>
+                              <li><a href="#">Add New Client</a></li>
                               <li><a href="#">Add New User</a></li>
                               <li><a href="#">All Users</a></li>
                               <li role="separator" class="divider"></li>
