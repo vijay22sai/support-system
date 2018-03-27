@@ -6,11 +6,12 @@ const Client     = require('../models/client_model');
 
 //function to add new license
 router.post('/add',function(req,res){
+        console.log(req.body);
      let license=new License({
-     	client_id                 :  req.body.license.client_id,
-     	product                   :  req.body.license.product,
-     	no_of_licenses            :  req.body.license.no_of_licenses,
-     	licence_procurement_date  :  req.body.license.lpd,
+     	client_id                     :  req.body.license.client_id,
+     	product                       :  req.body.license.product,
+     	no_of_licenses                :  req.body.license.no_of_licenses,
+     	licence_procurement_date      :  req.body.license.lpd,
 	    support_renewal_date      :  req.body.license.srd,
 	    certificate_status        :  req.body.license.certificate_status
      });
@@ -35,6 +36,13 @@ router.get('/all', (req,res) =>{
 	});
 	
 });
+//function to update license(making the license state to inactive)
+router.post('/delete_license',(req,res) => {
+console.log(req.body);
+License.updateOne({_id:req.body._id},{$set :{"license_status": "inactive"}},function(err, data){
+        console.log(data);
+});
+});
 
 //function to delete license
 router.get('/delete/:delete_id', function(req, res){
@@ -45,8 +53,8 @@ router.get('/delete/:delete_id', function(req, res){
 });
 
 //function to update license
-router.post('/update/:update_id', function(req, res){
-     License.updateOne({_id:req.params.update_id},{$set:{
+router.post('/update_license', function(req, res){
+     License.updateOne({_id:req.body._id},{$set:{
            client_id                  :  req.body.client_id,
            product                    :  req.body.product,
            no_of_licenses             :  req.body.no_of_licenses,

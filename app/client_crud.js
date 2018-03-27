@@ -13,6 +13,13 @@ router.get('/clients',function(req,res){
 	});
 });
 
+//function to get single client info
+router.get('/single_client',function(req,res){
+	Client.findOne({_id:req.query.id},function(err,data){
+		res.send(data);
+	});
+});
+
 //function to add new client
 router.post('/add',function(req,res){
 	

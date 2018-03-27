@@ -13,13 +13,13 @@
                 <div class="row">
                     <div class="col-sm-6 col-md-12">
                         <h4>
-                            National Trust</h4>
+                            {{client_info.client_name}}</h4>
                         <small><cite title="Bristol, UK">Bristol, UK <i class="glyphicon glyphicon-map-marker">
                         </i></cite></small>
                         <p>
-                            <i class="glyphicon glyphicon-envelope"></i>email@ntrust.com
+                            <i class="glyphicon glyphicon-envelope"></i>{{client_info.primary_email}}
                             <br />
-                            <i class="glyphicon glyphicon-globe"></i><a href="http://www.jquery2dotnet.com">www.nationaltrust.co.uk</a>
+                            <i class="glyphicon glyphicon-globe"></i>{{client_info.primary_contact}}
                             <br />
                             <i class="glyphicon glyphicon-gift"></i>June 02, 1988</p>
                        
@@ -61,7 +61,7 @@
                             <td>{{license.licence_procurement_date}}</td>
                             <td>{{license.support_renewal_date}}</td>
                             <td>{{license.certificate_status}}</td>
-                            <td><button class="btn btn-primary">Edit</button></td>
+                            <td><button class="btn btn-primary" data-toggle="modal" data-target="#license_edit_model" ng-click="license_edit(license)">Edit</button></td>
                           </tr>
                           <tr>
                         </tbody>
@@ -118,3 +118,49 @@
     </div>
   </div>
 </div>
+
+
+
+
+<div class="modal fade" id="license_edit_model" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        Edit license for {{l_info.product}}
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+        <label for="license">license</label>
+            <input type="text" ng-model="l_info.product" value="l_info.product" class="form-control" id="Count" readonly>
+          </div>
+    <div class="form-group">
+    <label for="Count">Count</label>
+    <input type="text" ng-model="l_info.no_of_licenses" value="l_info.no_of_licenses"class="form-control" id="Count">
+  </div>
+  <div class="form-group">
+    <label for="Procurement">Procurement Date</label>
+    <input type="date" ng-model="l_info.licence_procurement_date" value="l_info.license_procurement_date"class="form-control" id="Procurement" placeholder="Partners">
+  </div>
+  <div class="form-group">
+    <label for="Renewal">Renewal Date</label>
+    <input type="date" ng-model="l_info.support_renewal_date" value="l_info.support_renewal_date.date" class="form-control" id="Renewal" placeholder="Products Licensed">
+  </div>
+  <div class="form-group">
+    <label for="Status">Cerficate Status</label>
+    <input type="text" ng-model="l_info.certificate_status" value="l_info.certificate_status" class="form-control" id="Status" placeholder="Status of License">
+  </div>
+</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="delete_license()">Delete License</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="license_update()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+

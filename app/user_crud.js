@@ -17,7 +17,7 @@ router.post('/add',function(req, res){
 	//encrypting password
 	let salt  			   = bcrypt.genSaltSync(saltrounds);
     let hashed_password   = bcrypt.hashSync(req.body.password,salt);
-
+console.log(req.body);
 	let new_user = new User({
 		user_name      :   req.body.user_name,
 		user_id        :   req.body.user_id,
@@ -26,7 +26,13 @@ router.post('/add',function(req, res){
 		email          :   req.body.email,
 		contact        :   req.body.contact
 	});
+	
+	
 	new_user.save(function(err, data){
+		if(err){
+			console.log(err.errors);
+			res.send(err.errors);
+		}
 		res.send(data);
 	});
 });
