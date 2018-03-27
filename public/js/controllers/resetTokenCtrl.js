@@ -1,5 +1,6 @@
 support.controller("resetTokenCtrl",function($scope,$http,$window,$location,$routeParams){
     $scope.isValid = false;
+    $scope.user_id ="h";
 	function init(){
 		$http({
 			method : "GET",
@@ -14,13 +15,17 @@ support.controller("resetTokenCtrl",function($scope,$http,$window,$location,$rou
 	init();
 	$scope.change = function() {
 		let id    = $routeParams.id;
+		alert($scope.password1);
 		if(!id){
 			return;
+		}
+		let data = {
+			"token":id,"password":$scope.password1
 		}
 		$http({
 			method : "POST",
 			url    : "user/reset",
-			data   : {"token":id,"password":$scope.password}
+			data   : {"user":data}
 		}).then(function(response){
 			$scope.message = "Successfully Changed..You will be redirected to login page!";
 			setTimeout(()=>{ $window.location.href = '/';},2000);

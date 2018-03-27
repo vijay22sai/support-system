@@ -1,7 +1,12 @@
 angular.module('appRoutes',[])
 .config(['$routeProvider','$locationProvider',function($routeProvider,$locationProvider){
 	$routeProvider.when('/',{
-		templateUrl :'../views/login.html'
+		templateUrl :'../views/login.html',
+		controller  : "loginCtrl"
+	})
+	.when("/users",{
+		templateUrl : "../views/allusers.html",
+		controller  : "userCtrl"
 	})
 	.when('/reset_password',{
 		templateUrl : '../views/forgot_pwd.html',

@@ -1,0 +1,80 @@
+<div class="container" ng-init="get_all_users()">
+<div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Users
+                <button href="#" class="btn btn-default panel-right" data-toggle="modal" data-target="#exampleModal">Add User</button>
+        </div>
+        <!-- List group -->
+        <div class="table-responsive">
+        <table class="table table-bordered">
+                <thead>
+                        <tr>
+                                <th>SNo.</th>
+                                <th>User Name</th>
+                                <th>User ID</th>
+                                <th>Role</th>
+                                <th>Email</th>
+                                <th>Contact</th>
+                                <th>Action</th>
+                            </tr>
+                </thead>
+                <tbody>
+                 <tr ng-repeat="user in users">
+                    <td>{{($index+1)}}</td>  
+                    <td>{{user.user_name}}</td>   
+                    <td>{{user.user_id}} </td>   
+                    <td>{{user.role}} </td>   
+                    <td>{{user.email}} </td> 
+                    <td>{{user.contact}} </td>                             
+                    <td><a class="btn btn-primary" href="#">Edit</a></td>
+                  </tr>
+  
+                </tbody>
+              </table>
+              </div>
+      </div>
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  Add New User
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                        <form>
+                  <div class="form-group">
+                    <label for="username">User Name</label>
+                    <input type="text" class="form-control" id="username" required="true" aria-describedby="emailHelp" placeholder="User Name" ng-model="user.name">
+                  </div>
+                  <div class="form-group">
+                    <label for="userid">User ID</label>
+                    <input type="text" class="form-control" id="userid" placeholder="User ID" required="required" ng-model="user.user_id">
+                  </div>
+                    <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="Password" required="required" ng-model="user.password">
+                  </div>
+                  <div class="form-group">
+                    <label for="role">Role</label>
+                    <input type="text" class="form-control" id="role" placeholder="User's Role" ng-model="user.role">
+                  </div>
+                  <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="Email" required="required" ng-model="user.email">
+                </div>
+                 <div class="form-group">
+                            <label for="contact">Contact</label>
+                            <input type="contact" class="form-control" id="contact" placeholder="Contact" required="required" ng-model="user.contact">
+                </div>
+                </form>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="add_user()">Save changes</button>
+                      </div>
+                    </div>
+                  </div>
+                </div> 
+                </div>

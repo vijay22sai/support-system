@@ -16,17 +16,20 @@ let saltrounds   = 10;
 router.post('/add',function(req, res){
 	//encrypting password
 	let salt  			   = bcrypt.genSaltSync(saltrounds);
-    let hashed_password   = bcrypt.hashSync(req.body.password,salt);
-
+    let hashed_password    = bcrypt.hashSync(req.body.user.password,salt);
+    console.log(req.body.user);
 	let new_user = new User({
-		user_name      :   req.body.user_name,
-		user_id        :   req.body.user_id,
+		user_name      :   req.body.user.name,
+		user_id        :   req.body.user.user_id,
 		password       :   hashed_password,
-		role           :   req.body.role,
-		email          :   req.body.email,
-		contact        :   req.body.contact
+		role           :   req.body.user.role,
+		email          :   req.body.user.email,
+		contact        :   req.body.user.contact
 	});
+	
 	new_user.save(function(err, data){
+		if(err) 
+		console.log(err);
 		res.send(data);
 	});
 });
@@ -64,15 +67,16 @@ router.post('/authenticate',function(req,res){
 				res.send("No user exists with this Id");
 		}
 		else{
-			if(!bcrypt.compareSync(req.body.password,user.password)){
+			bcrypt.compare(req.body.password,user.password).then((status)=>{
+				if(!status)
 				res.send('Invalid Password');
-			}
 			else{
 				let payload  = { user_id : user.user_id };
 				let token    = jwt.sign(payload, "support");
 				res.cookie('token',token);
-				res.sendStatus(200);
+				res.sendStatus(200);	
 			}
+			});
 		}
 	});
 });
@@ -97,7 +101,7 @@ router.post('/change_pwd', function(req,res){
 
 router.post("/reset_password_setup",function(req,res){
 	let payload  = { user_id : req.body.user_id };
-	let token    = jwt.sign(payload, "support",{expiresIn: 60});
+	let token    = jwt.sign(payload, "support",{expiresIn: 60*60});
 	User.findOne({user_id : req.body.user_id},function(err,user){
         if(!user){
 			res.send("No user exits with this id!");
@@ -108,7 +112,7 @@ router.post("/reset_password_setup",function(req,res){
 		        to     :  user.email, // list of receivers
 		        subject: 'Password reset Link ✔', // Subject line
 		        text   : 'Please click on below link to reset your password', // plain text body
-		        html   : 'http://localhost:3000/#!/reset?id='+token // html body
+		        html   : 'http://10.0.0.75:3000/#!/reset?id='+token // html body
 		    };
 		    mail(mailOptions);
 		    res.send("Password Reset Link has been sent to your mail, please check your mail..");	
@@ -117,10 +121,10 @@ router.post("/reset_password_setup",function(req,res){
 });
 
 router.post("/reset",function(req,res){
-	let token = req.body.token;
-
+	let token = req.body.user.token;
+	console.log(req.body.user);
 	jwt.verify(token, "support", function(err, decoded) {
-					hashed_password   = bcrypt.hashSync(req.body.password,10);
+					hashed_password   = bcrypt.hashSync(req.body.user.password,10);
 					User.updateOne({user_id : decoded.user_id},{$set:{
 	             		password : hashed_password
 					}},(err,data) => {

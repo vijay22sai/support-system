@@ -88,9 +88,10 @@
         <form>
   <div class="form-group">
     <label for="serviceselect">License</label>
-     <select name="repeatSelect" id="repeatSelect" ng-model="newl.product" class="form-control">
+     <select name="repeatSelect" id="repeatSelect" ng-model="newl.product" ng-change="is_duplicate_service()" class="form-control">
       <option ng-repeat="option in services" value="{{option.service_handle}}">{{option.service}}</option>
     </select>
+    <small>{{duplicate_message}}</small>
   </div>
 
     <div class="form-group">

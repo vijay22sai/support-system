@@ -31,4 +31,18 @@ support.controller("singleClientCtrl",function($scope,$http,$window,$location,$r
 			get_all_license();
 		},function(err){});
 	}
+	$scope.is_duplicate_service = function(){
+		let service = $scope.newl.product;
+		$scope.duplicate_message = "";
+		let services = $scope.licenses;
+		console.log(services);
+		for(let i=0;i<services.length;i++){
+			if(services[i].product===service){
+				$scope.duplicate_message = "Client is currently using "+service+"..."
+				$scope.newl.product="";
+				break;
+			}
+		}
+
+	}
 });

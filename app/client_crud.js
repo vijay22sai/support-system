@@ -5,6 +5,8 @@ const fs        = require('fs');
 const path      = require('path');
 const Client    = require('../models/client_model.js');
 const license   = require('../models/license_model.js');
+var multer      = require('multer')
+var upload      = multer({ dest: 'public/uploads/' })
 
 // function to get all clients info
 router.get('/clients',function(req,res){
@@ -14,18 +16,27 @@ router.get('/clients',function(req,res){
 });
 
 //function to add new client
-router.post('/add',function(req,res){
-	
+router.post('/add', upload.any() ,function(req,res){
+	let filename = (new Date).valueOf()+"-"+ req.files[0].originalname;
+    if(req.files){
+		req.files.forEach(function(file){
+			fs.rename(file.path, 'public/uploads/'+filename, function(err){
+				if(err) throw err;
+			});
+		});
+	}
 	let client = new Client({
-		client_name      		    :  req.body.client.name,
-	    partners          			:  req.body.client.partner,
-		primary_email               :  req.body.client.email,
-		primary_contact             :  req.body.client.contact,
-		primary_contact_name        :  req.body.client.contact_name
+		client_name      		    :  req.body.name,
+	    partners          			:  req.body.partner,
+		primary_email               :  req.body.email,
+		primary_contact             :  req.body.contact,
+		primary_contact_name        :  req.body.contact_name,
+		logo  						:  filename
 	});
+	console.log(client);
 	client.save((err, data) =>{
 		console.log(data);
-		res.send("saved");
+		res.send(data);
 	}); 
 });
 

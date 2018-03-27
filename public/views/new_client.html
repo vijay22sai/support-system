@@ -24,6 +24,10 @@
     <label for="exampleInputPassword1">Personal Contact</label>
     <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Personal Contact" ng-model="client.contact">
   </div>
+    <div class="form-group">
+    <label for="exampleInputPassword1">Logo</label>
+    <input name="image" id="file" ng-model="client.image" placeholder="Upload Image" class="form-control" type="file">
+  </div>
   <button type="submit" class="btn btn-primary" ng-click="add_client()">Add Client</button>
   <p>{{message}}</p>
 </form>
