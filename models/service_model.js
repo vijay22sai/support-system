@@ -3,7 +3,7 @@ const Schema   					= mongoose.Schema;
 
 module.exports = mongoose.model('services', new Schema({
 
-	service         			: String,
+	service         			: {type : String, required : true},
 	service_handle   			: String,
 	description		 			: String,
 	color						: String

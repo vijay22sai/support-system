@@ -28,7 +28,11 @@
   <script type="text/javascript" src="/js/controllers/clientCtrl.js"></script>
   <script type="text/javascript" src="/js/controllers/singleClientCtrl.js"></script>
   <script type="text/javascript" src="/js/controllers/serviceCtrl.js"></script>
+<<<<<<< HEAD
   <script type="text/javascript" src="/js/controllers/userCtrl.js"></script>
+=======
+  <script type="text/javascript" src="/js/controllers/changeCtrl.js"></script>
+>>>>>>> 7edfd470abdffb9e5008e4dd115adecb57c2821d
 </head>
 <body ng-app="support" ng-controller="supportCtrl">
 
@@ -47,12 +51,17 @@
         <div id="navbar" class="navbar-collapse collapse">
         	<div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav navbar-right">
-                          <li class="dropdown">
+                          <li class="dropdown" ng-show="enableAction">
                             <a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Actions <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                              <li><a href="#">Add New Client</a></li>
+                              <li><a href="">Add New Client</a></li>
                               <li><a href="#">Add New User</a></li>
+<<<<<<< HEAD
                               <li><a href="#!/users">All Users</a></li>
+=======
+                              <li><a href="#">All Users</a></li>
+                              <li><a href="#!/change_password">Change Password</a></li>
+>>>>>>> 7edfd470abdffb9e5008e4dd115adecb57c2821d
                               <li role="separator" class="divider"></li>
                               <li><a href="#">logout</a></li>
                             </ul>

@@ -20,6 +20,10 @@ angular.module('appRoutes',[])
 		templateUrl : "../views/new_client.html",
 		controller  : "clientCtrl"
 	})
+	.when('/change_password',{
+		templateUrl : '../views/change_pwd.html',
+		controller  : "changeCtrl"
+	})
 	.when("/client",{
 		templateUrl : "../views/client_page.html",
 		controller  : "singleClientCtrl"
