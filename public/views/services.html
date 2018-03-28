@@ -2,8 +2,8 @@
 	
 	<div class="panel panel-default">
                 <!-- Default panel contents -->
-                <div class="panel-heading">SERVICES OFFERED
-                		           <button href="#" class="btn btn-default panel-right" data-toggle="modal" data-target="#exampleModal">Add Service</button>
+                <div class="panel-heading">ALL PRODUCTS
+                		           <button href="#" class="btn btn-default panel-right" data-toggle="modal" data-target="#exampleModal">Add Product</button>
                 </div>
 
               
@@ -13,9 +13,9 @@
                         <thead>
                                 <tr>
                                         <th>No.</th>
-                                        <th>Service</th>
-                                        <th>Service Handle</th>
-                                        <th>About Service</th>
+                                        <th>PRODUCT</th>
+                                        <th>PRODUCT HANDLE</th>
+                                        <th>ABOUT PRODUCT</th>
                                         <th>Actions</th>
                                     </tr>
                         </thead>
@@ -40,7 +40,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        Add New Service
+        Add New Product
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -48,11 +48,11 @@
       <div class="modal-body">
         <form>
   <div class="form-group">
-    <label for="License">Service Name</label>
+    <label for="License">PRODUCT NAME</label>
     <input type="text" ng-model="service.service" class="form-control" id="License" aria-describedby="emailHelp" placeholder="Service">
   </div>
   <div class="form-group">
-    <label for="Count">SERVICE CODE</label>
+    <label for="Count">PRODUCT CODE</label>
     <input type="text" ng-model="service.handle" class="form-control" id="Count" placeholder="Service handle">
   </div>
     <div class="form-group">
@@ -60,7 +60,7 @@
     <input type="text" ng-model="service.colour" class="form-control" id="Color" placeholder="Service Color">
   </div>
   <div class="form-group">
-    <label for="Procurement">About Service</label>
+    <label for="Procurement">ABOUT PRODUCT</label>
     <textarea ng-model="service.description" class="form-control" id="Procurement" placeholder="Service Description"></textarea>
   </div>
 </form>

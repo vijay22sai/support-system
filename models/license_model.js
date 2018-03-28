@@ -8,5 +8,5 @@ module.exports = mongoose.model('licenses',new Schema({
 	licence_procurement_date    : {type :  Date, required :true},
 	support_renewal_date 		:  {type :  Date, required :true},
 	certificate_status          :  String,
-	license_status              :  Boolean
+	license_status              :  String
 }));

@@ -21,6 +21,12 @@ mongoose.connect(db,function(err){
 app.get('/',function(req,res){
 	res.sendFile(__dirname+'/public/views/index.html');
 });
+
+app.get('/logout',function(req,res){
+	res.clearCookie("token");
+	res.redirect("/");
+});
+
 app.use('/client',client_crud);
 app.use('/license',license_crud);
 app.use('/user',user_crud);

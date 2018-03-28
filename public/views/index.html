@@ -16,8 +16,6 @@
   <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   <!--controller scripts-->
-  
-  
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
   <script type="text/javascript" src="/js/app.js"></script>
@@ -28,11 +26,13 @@
   <script type="text/javascript" src="/js/controllers/clientCtrl.js"></script>
   <script type="text/javascript" src="/js/controllers/singleClientCtrl.js"></script>
   <script type="text/javascript" src="/js/controllers/serviceCtrl.js"></script>
-<<<<<<< HEAD
-  <script type="text/javascript" src="/js/controllers/userCtrl.js"></script>
-=======
   <script type="text/javascript" src="/js/controllers/changeCtrl.js"></script>
->>>>>>> 7edfd470abdffb9e5008e4dd115adecb57c2821d
+
+  <!-- scripts for graphs -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 </head>
 <body ng-app="support" ng-controller="supportCtrl">
 
@@ -56,14 +56,10 @@
                             <ul class="dropdown-menu">
                               <li><a href="">Add New Client</a></li>
                               <li><a href="#">Add New User</a></li>
-<<<<<<< HEAD
-                              <li><a href="#!/users">All Users</a></li>
-=======
                               <li><a href="#">All Users</a></li>
                               <li><a href="#!/change_password">Change Password</a></li>
->>>>>>> 7edfd470abdffb9e5008e4dd115adecb57c2821d
                               <li role="separator" class="divider"></li>
-                              <li><a href="#">logout</a></li>
+                              <li><a href="/logout">logout</a></li>
                             </ul>
                           </li>
                         </ul>

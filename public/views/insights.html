@@ -1,0 +1,24 @@
+<div class="container">
+	<div class="panel">
+		<div class="panel-heading">Insights</div>
+		<div class="panel-body">
+<div id="barchart" style="height: 250px;width:500px;float: left;"><h2 style="text-align: center;">Active Licenses</h2></div>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+new Morris.Bar({
+  element: 'barchart',
+  data: [
+    { y: 'SELF', a: 500 },
+    { y: 'STUDIO', a: 575 },
+    { y: 'PAYROLL', a: 550},
+    { y: 'TIME', a: 475 },
+    { y: 'PERFORM', a: 550},
+    { y: 'ABSENT', a: 575}
+      ],
+  xkey: 'y',
+  ykeys: ['a'],
+  labels: ['Licenses']
+});
+</script>

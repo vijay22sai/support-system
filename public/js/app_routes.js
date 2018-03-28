@@ -8,6 +8,9 @@ angular.module('appRoutes',[])
 		templateUrl : "../views/allusers.html",
 		controller  : "userCtrl"
 	})
+	.when("/insights",{
+		templateUrl : "../views/insights.html"
+	})
 	.when('/reset_password',{
 		templateUrl : '../views/forgot_pwd.html',
 		controller  : "resetCtrl"

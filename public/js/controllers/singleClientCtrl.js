@@ -1,4 +1,4 @@
-support.controller("singleClientCtrl",function($scope,$http,$window,$location,$routeParams){
+support.controller("singleClientCtrl",function($scope,$http,$window,$location,$routeParams,$filter){
 	$scope.newl = {};
 	function get_client_info(){
 		console.log("in client info");
@@ -25,6 +25,7 @@ support.controller("singleClientCtrl",function($scope,$http,$window,$location,$r
 	}
 	get_all_license();
 	$scope.get_services = function(){
+		$scope.today = $filter('date')(Date.now(), 'yyyy-MM-dd');
 		$http({
 			method: "GET",
 			url   : "service/all",
@@ -44,22 +45,6 @@ support.controller("singleClientCtrl",function($scope,$http,$window,$location,$r
 			get_all_license();
 		},function(err){});
 	}
-<<<<<<< HEAD
-	$scope.is_duplicate_service = function(){
-		let service = $scope.newl.product;
-		$scope.duplicate_message = "";
-		let services = $scope.licenses;
-		console.log(services);
-		for(let i=0;i<services.length;i++){
-			if(services[i].product===service){
-				$scope.duplicate_message = "Client is currently using "+service+"..."
-				$scope.newl.product="";
-				break;
-			}
-		}
-
-	}
-=======
 	$scope.l_info={};
 	$scope.license_edit=function(p){
 		$scope.l_info=p;
@@ -94,5 +79,4 @@ support.controller("singleClientCtrl",function($scope,$http,$window,$location,$r
 	});
 }
 	
->>>>>>> 7edfd470abdffb9e5008e4dd115adecb57c2821d
 });

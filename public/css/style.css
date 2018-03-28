@@ -8,8 +8,10 @@ body{font-family: Roboto, 'Segoe UI', Tahoma, sans-serif !important;background-c
     .panel-default>.panel-heading{padding: 15px !important;font-weight: bold;}
     .navbar-default .navbar-brand:hover {color: #fff;};
     .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
-        color: #fff !important;
+    color: #fff;
+    background-color: transparent;
     }
+    .navbar{padding: 5px;}
     .table-responsive {
     width: 100%;
     margin-bottom: 15px;

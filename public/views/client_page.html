@@ -19,7 +19,7 @@
                         <p>
                             <i class="glyphicon glyphicon-envelope"></i>{{client_info.primary_email}}
                             <br />
-                            <i class="glyphicon glyphicon-globe"></i>{{client_info.primary_contact}}
+                            <i class="glyphicon glyphicon-phone"></i>{{client_info.primary_contact}}
                             <br />
                             <i class="glyphicon glyphicon-gift"></i>June 02, 1988</p>
                        
@@ -84,84 +84,40 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+      <form name="myForm" ng-submit="add_license()">
       <div class="modal-body">
-        <form>
   <div class="form-group">
     <label for="serviceselect">License</label>
-     <select name="repeatSelect" id="repeatSelect" ng-model="newl.product" ng-change="is_duplicate_service()" class="form-control">
+     <select name="repeatSelect" id="repeatSelect" ng-model="newl.product" class="form-control" required>
       <option ng-repeat="option in services" value="{{option.service_handle}}">{{option.service}}</option>
     </select>
-    <small>{{duplicate_message}}</small>
+    <p ng-show="myForm.repeatSelect.$error.required" class="help-block">please Select one!</p>
   </div>
 
     <div class="form-group">
     <label for="Count">Count</label>
-    <input type="text" ng-model="newl.no_of_licenses" class="form-control" id="Count" placeholder="Number of Licenses">
+    <input type="text" name="count" ng-model="newl.no_of_licenses" class="form-control" id="Count" placeholder="Number of Licenses *" required>
+    <!-- <p ng-show="myForm.count.$error.required" class="help-block">count is Required</p> -->
   </div>
   <div class="form-group">
     <label for="Procurement">Procurement Date</label>
-    <input type="date" ng-model="newl.lpd" class="form-control" id="Procurement" placeholder="Partners">
+    <input type="date" ng-model="lpd" class="form-control" value={{today}} id="Procurement" min="{{today}}" placeholder="Partners" required>
   </div>
   <div class="form-group">
     <label for="Renewal">Renewal Date</label>
-    <input type="date" ng-model="newl.srd" class="form-control" id="Renewal" placeholder="Products Licensed">
+    <input type="date" ng-model="lrd" min="{{lpd | date:'yyyy-MM-dd'}}" class="form-control" id="Renewal" placeholder="Products Licensed" required>
   </div>
   <div class="form-group">
     <label for="Status">Cerficate Status</label>
     <input type="text" ng-model="newl.certificate_status" class="form-control" id="Status" placeholder="Status of License">
   </div>
-</form>
+  <p ng-show="myForm.$invalid" class="help-block">Please fill Required* fields</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="add_license()">Save changes</button>
+        <button type="submit" class="btn btn-primary" ng-disabled="myForm.$invalid">Save</button>
       </div>
+    </form>
     </div>
   </div>
 </div>
-
-
-
-
-<div class="modal fade" id="license_edit_model" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        Edit license for {{l_info.product}}
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-        <label for="license">license</label>
-            <input type="text" ng-model="l_info.product" value="l_info.product" class="form-control" id="Count" readonly>
-          </div>
-    <div class="form-group">
-    <label for="Count">Count</label>
-    <input type="text" ng-model="l_info.no_of_licenses" value="l_info.no_of_licenses"class="form-control" id="Count">
-  </div>
-  <div class="form-group">
-    <label for="Procurement">Procurement Date</label>
-    <input type="date" ng-model="l_info.licence_procurement_date" value="l_info.license_procurement_date"class="form-control" id="Procurement" placeholder="Partners">
-  </div>
-  <div class="form-group">
-    <label for="Renewal">Renewal Date</label>
-    <input type="date" ng-model="l_info.support_renewal_date" value="l_info.support_renewal_date.date" class="form-control" id="Renewal" placeholder="Products Licensed">
-  </div>
-  <div class="form-group">
-    <label for="Status">Cerficate Status</label>
-    <input type="text" ng-model="l_info.certificate_status" value="l_info.certificate_status" class="form-control" id="Status" placeholder="Status of License">
-  </div>
-</form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="delete_license()">Delete License</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="license_update()">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-

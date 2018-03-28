@@ -40,7 +40,7 @@ router.get('/all', (req,res) =>{
 router.post('/delete_license',(req,res) => {
 console.log(req.body);
 License.updateOne({_id:req.body._id},{$set :{"license_status": "inactive"}},function(err, data){
-        console.log(data);
+        console.log(data+".....");
 });
 });
 

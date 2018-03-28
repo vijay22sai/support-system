@@ -16,13 +16,7 @@ let saltrounds   = 10;
 router.post('/add',function(req, res){
 	//encrypting password
 	let salt  			   = bcrypt.genSaltSync(saltrounds);
-<<<<<<< HEAD
     let hashed_password    = bcrypt.hashSync(req.body.user.password,salt);
-    console.log(req.body.user);
-=======
-    let hashed_password   = bcrypt.hashSync(req.body.password,salt);
-console.log(req.body);
->>>>>>> 7edfd470abdffb9e5008e4dd115adecb57c2821d
 	let new_user = new User({
 		user_name      :   req.body.user.name,
 		user_id        :   req.body.user.user_id,
@@ -32,18 +26,11 @@ console.log(req.body);
 		contact        :   req.body.user.contact
 	});
 	
-<<<<<<< HEAD
-	new_user.save(function(err, data){
-		if(err) 
-		console.log(err);
-=======
-	
 	new_user.save(function(err, data){
 		if(err){
 			console.log(err.errors);
 			res.send(err.errors);
 		}
->>>>>>> 7edfd470abdffb9e5008e4dd115adecb57c2821d
 		res.send(data);
 	});
 });
