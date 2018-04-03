@@ -1,6 +1,7 @@
 support.controller("resetTokenCtrl",function($scope,$http,$window,$location,$routeParams){
     $scope.isValid = false;
     $scope.user_id ="h";
+    $scope.obj={};
 	function init(){
 		$http({
 			method : "GET",
@@ -8,8 +9,8 @@ support.controller("resetTokenCtrl",function($scope,$http,$window,$location,$rou
 			params : {"token":$routeParams.id}
 		}).then(function(response){
 			console.log(response);
-			if(response.data.status) $scope.isValid = true;
-			else $scope.isValid = false;
+			if(response.data.status) $scope.isValid = false;
+			else $scope.isValid = true;
 		},function(err){}); 
 	}
 	init();

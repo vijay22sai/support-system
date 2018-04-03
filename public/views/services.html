@@ -45,30 +45,31 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+      <form name="serviceform">
       <div class="modal-body">
-        <form>
   <div class="form-group">
     <label for="License">PRODUCT NAME</label>
-    <input type="text" ng-model="service.service" class="form-control" id="License" aria-describedby="emailHelp" placeholder="Service">
+    <input type="text" name="productname" ng-model="service.service" class="form-control" id="License" aria-describedby="emailHelp" placeholder="Service*" required="true" ng-pattern="/^[a-zA-Z]+[a-zA-Z ]*$/">
+    <p ng-show="serviceform.productname.$error.pattern" class="help-block">Invalid</p>
   </div>
   <div class="form-group">
     <label for="Count">PRODUCT CODE</label>
-    <input type="text" ng-model="service.handle" class="form-control" id="Count" placeholder="Service handle">
+    <input type="text" name="productcode" ng-model="service.handle" class="form-control" id="Count" placeholder="Service handle*" required="true">
   </div>
     <div class="form-group">
     <label for="Count">COLOR CODE</label>
-    <input type="text" ng-model="service.colour" class="form-control" id="Color" placeholder="Service Color">
+    <input type="color" name="colorcode" ng-model="service.colour" class="form-control" id="Color" placeholder="Service Color*" required="true">
   </div>
   <div class="form-group">
     <label for="Procurement">ABOUT PRODUCT</label>
     <textarea ng-model="service.description" class="form-control" id="Procurement" placeholder="Service Description"></textarea>
   </div>
-</form>
-      </div>
+    </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="add_service()">Save changes</button>
+        <button type="submit" class="btn btn-primary" data-dismiss="modal" ng-disabled="serviceform.$invalid" ng-click="add_service()">Save changes</button>
       </div>
+      </form>
     </div>
   </div>
 </div>

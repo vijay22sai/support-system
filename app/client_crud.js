@@ -57,7 +57,7 @@ router.get('/delete/:client_id',function(req,res){
 });
 
 //function to update client info
-router.post('/update/:update_id',function(req,res){
+router.post('/update_old/:update_id',function(req,res){
 
 	Client.updateOne({_id :req.params.update_id},{$set:{ 
 			    client_name      		    :  req.body.client_name,
@@ -74,7 +74,23 @@ router.post('/update/:update_id',function(req,res){
 			  }
 	);
 });
+router.post('/update',function(req,res){
 
+	Client.updateOne({_id :req.body._id},{$set  :{
+			    client_name      		    :  req.body.client_name,
+				//certificate_sent  			:  req.body.certificate_sent,
+	    		//partners          			:  req.body.partners,
+		   		//status 						:  req.body.status,
+				primary_email               :  req.body.primary_email,
+				primary_contact             :  req.body.primary_contact,
+				//other                       :  req.body.other
+				}
+			},(err, data) =>{
+					console.log(data);
+					res.send(data);
+			  }
+	);
+});
 
 
 module.exports = router;

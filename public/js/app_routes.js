@@ -9,11 +9,16 @@ angular.module('appRoutes',[])
 		controller  : "userCtrl"
 	})
 	.when("/insights",{
-		templateUrl : "../views/insights.html"
+		templateUrl : "../views/insights.html",
+		controller  : "insightCtrl"
 	})
 	.when('/reset_password',{
 		templateUrl : '../views/forgot_pwd.html',
 		controller  : "resetCtrl"
+	})
+	.when("/all_licenses",{
+		templateUrl : "../views/all_licenses.html",
+		controller  : "licenseCtrl"
 	})
 	.when("/reset",{
 		templateUrl : "../views/reset_pwd.html",
@@ -34,6 +39,9 @@ angular.module('appRoutes',[])
 	.when("/services",{
 		templateUrl : "../views/services.html",
 		controller  : "serviceCtrl"
+	})
+	.when('/settings',{
+		templateUrl : "../views/settings.html"
 	})
 	.when('/dashboard',{
 		templateUrl :'../views/table.html',

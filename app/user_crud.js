@@ -73,7 +73,7 @@ router.post('/authenticate',function(req,res){
 				res.send('Invalid Password');
 			else{
 				let payload  = { user_id : user.user_id };
-				let token    = jwt.sign(payload, "support");
+				let token    = jwt.sign(payload, "support", {expiresIn : 60*60});
 				res.cookie('token',token);
 				res.sendStatus(200);	
 			}

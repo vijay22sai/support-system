@@ -2,8 +2,15 @@
         <div class="panel panel-default">
                 <!-- Default panel contents -->
                 <div class="panel-heading">Support  Sheet  Dashboard
-                    <a href="#!/new_client" class="btn btn-default panel-right" style="margin-left: 5px;">Add Client</a>
-                    <a href="#!/services" class="btn btn-default panel-right">All Products</a>
+                    
+                    <input type="search" name="search" ng-model="search_query" class="search panel-right" style="margin-left: 5px;" placeholder="Search">
+                                      
+                    <select class="search panel-right" ng-model="selected_item" ng-change="filter_status()">
+                        <option selected="selected"  value=""><span style="font-weight: normal;">All</span></option>
+                        <option >active</option>
+                        <option>in-active</option>
+                        <option>pending</option>
+                    </select>
                 </div>
 
               
@@ -17,28 +24,28 @@
                                         <th>Certificate Sent</th>
                                         <th>Partners</th>
                                         <th>Products Licensed</th>
-                                        <th>Primary Contact</th>
+                                        <th>Contact Name</th>
                                         <th>Email</th>
-                                        <th>Mobile</th>
-                                        <th>Status</th>
+                                        <th>Contact</th>
+                                        <th>Notes</th>
                                         <th>Action</th>
                                     </tr>
                         </thead>
                         <tbody>
-                          <tr ng-repeat="client in clients">
+                          <tr ng-repeat="client in clients  | filter : search_query">
                             <td>{{($index+1)}}</td>
-                            <td><img ng-src="uploads/{{client.logo}}" width="120px" height="100px"> </td>
-                            <td><i>Yes</i></td>
-                            <td><i>{{client.partners}}</i></td>
+                            <td><a href="#!/client?id={{client._id}}"><img ng-src="uploads/{{client.logo}}" width="120px" height="100px"></a> </td>
+                            <td><span class="label label-success" style="font-size: 12px;">Yes</span></td>
+                            <td>{{client.partners}}</td>
                             <td>
-                                <span class="btn btn-default license_badge" type="button"  ng-repeat="x in client.license_array" style="display: block;background: #f5f5f5;margin-bottom: 3px;">
+                                <span class="label license_badge" ng-repeat="x in client.license_array" style="display: block;background: #fff;margin-bottom: 3px;color: green;">
                                   {{x.product}} <span class="badge">{{x.no_of_licenses}}</span>
                                 </span>
                             </td>
                             
-                            <td><i>{{client.primary_contact_name}}</i></td>
-                            <td><a target="_blank" href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to={{client.primary_email}}"><i>{{client.primary_email}}</i></a></td>
-                            <td><i>{{client.primary_contact}}</i></td>
+                            <td>{{client.primary_contact_name}}</td>
+                            <td><a target="_blank" href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to={{client.primary_email}}">{{client.primary_email}}</a></td>
+                            <td>{{client.primary_contact}}</td>
                             <td></td>
                             <td><a class="btn btn-primary" href="#!/client?id={{client._id}}">Edit</a></td>
                           </tr>
@@ -48,3 +55,68 @@
                       </div>
               </div>
   </div>
+
+<div class="modal fade" id="client_add_model" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+       <div class="modal-header">
+      Add New License
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+     <div class="modal-body">
+  <div class="row">
+   
+      <div class="">
+      <div class="panel-body">
+      <form id="" name="newclient" >
+  <div class="form-group">
+    <label for="exampleInputEmail1">Customer Name</label>
+    <input type="text" name="customername" class="form-control" ng-pattern="/^[a-zA-Z]+[a-zA-Z0-9]*$/" aria-describedby="emailHelp" placeholder="Enter Company Name*" ng-model="client.name" required>
+    <p ng-show="newclient.customername.$error.pattern" class="help-block">Customer name is required.</p>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Partner (Referer)</label>
+    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Partner" ng-model="client.partner">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Contact Person</label>
+    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Contact Person Name" ng-model="client.contact_name">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Personal Email</label>
+    <input type="text"  name="clientmail" class="form-control" id="exampleInputPassword1"  ng-pattern="/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z]{2,3}$/" placeholder="Personal Email*" ng-model="client.email" required>
+    <p ng-show="newclient.clientmail.$error.pattern" class="help-block">Email is required.</p>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Personal Contact</label>
+    <input type="number" name="clientcontact" class="form-control" ng-minlength="10" id="exampleInputPassword1" ng-pattern="/^[0-9]*$/" placeholder="Personal Contact*" ng-model="client.contact" required>
+    <p ng-show="newclient.clientcontact.$error.pattern" class="help-block">Contact Number is required.</p>
+  </div>
+      <div class="form-group">
+    <label for="exampleInputPassword1">Number of Employees</label>
+    <input ng-model="client.size" placeholder="Company Size" class="form-control" type="number">
+  </div>
+    <div class="form-group">
+    <label for="exampleInputPassword1">Logo</label>
+    <input name="image" id="file" ng-model="client.image" placeholder="Upload Image" class="form-control" type="file">
+  </div>
+  <button type="submit" class="btn btn-primary" ng-disabled="newclient.$invalid" data-dismiss="modal" ng-click="add_client()">Add Client</button>
+  <p>{{message}}</p>
+</form>
+</div>
+</div>
+    
+  </div>
+</div>
+</div>
+
+
+</div>
+</div>
+
+
+
+
+

@@ -11,9 +11,9 @@ router.post('/add',function(req,res){
      	client_id                     :  req.body.license.client_id,
      	product                       :  req.body.license.product,
      	no_of_licenses                :  req.body.license.no_of_licenses,
-     	licence_procurement_date      :  req.body.license.lpd,
-	    support_renewal_date      :  req.body.license.srd,
-	    certificate_status        :  req.body.license.certificate_status
+     	licence_procurement_date      :  new Date(req.body.license.lpd),
+	    support_renewal_date          :  new Date(req.body.license.srd),
+	    certificate_status            :  req.body.license.certificate_status
      });
      license.save( (err,data) =>{
      	console.log(data._id);
@@ -29,13 +29,24 @@ router.post('/add',function(req,res){
      })
 });
 
-//function to get all licenses
+//function to get all licenses - one client
 router.get('/all', (req,res) =>{
-	License.find({client_id:req.query.id},(err,data) => {
+	License.find({client_id:req.query.id},(err,data) => {  
         res.send(data);
 	});
 	
 });
+//function to get all licenses
+router.get('/all_licenses', (req,res) =>{
+  License.find({}).populate('client_id').exec(function(err,data){  
+        res.send(data);
+        console.log('in');
+  });
+  
+  ///
+  ///
+});
+
 //function to update license(making the license state to inactive)
 router.post('/delete_license',(req,res) => {
 console.log(req.body);
@@ -51,16 +62,24 @@ router.get('/delete/:delete_id', function(req, res){
           res.send(data);
      });
 });
-
+//function to update license(making the license state to inactive)
+router.post('/delete_license',(req,res) => {
+console.log(req.body);
+License.updateOne({_id:req.body._id},{$set :{"license_status": "inactive"}},function(err, data){
+        console.log(data+".....");
+});
+});
 //function to update license
 router.post('/update_license', function(req, res){
-     License.updateOne({_id:req.body._id},{$set:{
+  console.log(req.body);
+     License.updateOne({_id:req.body._id},{$set :{
            client_id                  :  req.body.client_id,
            product                    :  req.body.product,
            no_of_licenses             :  req.body.no_of_licenses,
-           licence_procurement_date   :  req.body.lpd,
-           support_renewal_date       :  req.body.srd,
-           certificate_status         :  req.body.certificate_status
+           licence_procurement_date   :  new Date(req.body.licence_procurement_date),
+           support_renewal_date       :  new Date(req.body.support_renewal_date),
+           license_status             :  req.body.license_status,
+           repeat                     :  req.body.repeat
                }
           },(err ,data) => {
      console.log(data);

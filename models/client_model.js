@@ -11,6 +11,7 @@ module.exports = mongoose.model('clients', new Schema({
 	primary_contact_name        :  { type : String, required : true},
 	primary_email               :  { type : String, required : true},
 	primary_contact             :  { type : Number, required : true},
+	logo						: String,
 	other                       : String
 })
 );
