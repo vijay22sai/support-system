@@ -16,9 +16,29 @@ angular.module('appRoutes',[])
 		templateUrl : '../views/forgot_pwd.html',
 		controller  : "resetCtrl"
 	})
+	.when('/mail_settings',{
+		templateUrl : "../views/mail_templates.html",
+		controller  : "mailCtrl"
+	})
+	.when('/add_mail_template',{
+		templateUrl : "../views/mail_setup.html",
+		controller  : "mailCtrl"
+	})
+	.when('/update_mail_template',{
+		templateUrl : "../views/mail_page.html",
+		controller  : "mailCtrl"
+	})
 	.when("/all_licenses",{
 		templateUrl : "../views/all_licenses.html",
 		controller  : "licenseCtrl"
+	})
+	.when('/log',{
+		templateUrl : "../views/logs.html",
+		controller  : "logCtrl"
+	})
+	.when('/notify',{
+		templateUrl : "../views/notify.html",
+		controller  : "notifyCtrl"
 	})
 	.when("/reset",{
 		templateUrl : "../views/reset_pwd.html",
@@ -41,7 +61,8 @@ angular.module('appRoutes',[])
 		controller  : "serviceCtrl"
 	})
 	.when('/settings',{
-		templateUrl : "../views/settings.html"
+		templateUrl : "../views/settings.html",
+		controller	: "settingCtrl"
 	})
 	.when('/dashboard',{
 		templateUrl :'../views/table.html',

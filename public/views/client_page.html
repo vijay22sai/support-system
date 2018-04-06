@@ -12,14 +12,15 @@
           <div class="">
               <div class="row">
                   <div class="col-sm-6 col-md-12">
+                    <div class=""><img ng-src="uploads/{{client_info.logo}}" width="100px" height="100px"></div>
                       <h4>
                           {{client_info.client_name}}</h4>
                       <small><cite title="Bristol, UK">Bristol, UK <i class="glyphicon glyphicon-map-marker">
                       </i></cite></small>
                       <p>
-                          <i class="glyphicon glyphicon-envelope"></i>{{client_info.primary_email}}
+                          <i class="glyphicon glyphicon-envelope"></i> {{client_info.primary_email}}
                           <br />
-                          <i class="glyphicon glyphicon-globe"></i>{{client_info.primary_contact}}
+                          <i class="glyphicon glyphicon-phone"></i> {{client_info.primary_contact}}
                          
                      
                   </div>
@@ -28,6 +29,29 @@
       </div>
   </div>
 </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">NOTIFICATIONS</div>
+            <div class="panel-body">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                        <thead>
+                                <tr>
+                                        <th>Action</th>
+                                        <th>Time</th>                                      
+                                    </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="record in notify" >
+                            <td>{{record.action}}</td>
+                            <td>{{record.time| date : yyyy-MM-dd}}</td>
+                            
+                          </tr>
+                      <tr><td colspan="2">No Notifications found ...</td></tr>
+                        </tbody>
+                      </table>
+                      </div>
+            </div>
           </div>
   </div>
 
@@ -61,12 +85,13 @@
                           <td>{{($index+1)}}</td>
                           <td>{{license.product}}</td>
                           <td>{{license.no_of_licenses}}</td>
-                          <td>{{license.licence_procurement_date}}</td>
-                          <td>{{license.support_renewal_date}}</td>
+                          <td>{{license.licence_procurement_date | date:'yyyy-MM-dd'}}</td>
+                          <td>{{license.support_renewal_date |date:'yyyy-MM-dd'}}</td>
                           <td><span class="label {{license.license_status}}">{{license.license_status}}</span></td>
                           <td><button class="btn btn-primary" data-toggle="modal" data-target="#license_edit_model" ng-click="license_edit(license)" >Edit</button></td>
                         </tr>
                         <tr>
+                          <tr ng-show="nodata"><td colspan="7">No records found...</td></tr>
                       </tbody>
                     </table>
                     </div>
@@ -103,12 +128,12 @@
 </div>
 <div class="form-group">
   <label for="Procurement">Procurement Date</label>
-  <input type="date" ng-model="
-  newl.lpd" class="form-control" id="Procurement" value="{{today}}" min="{{today}}" placeholder="Partners">
+  <input type="date" ng-model="newl.lpd" class="form-control" id="Procurement" 
+  ng-blur="$root.setSupportRenewelDate(newl.lpd,newl.srd)"  placeholder="Partners">
 </div>
 <div class="form-group">
   <label for="Renewal">Renewal Date</label>
-  <input type="date" ng-model="newl.srd" min="{{newl.lpd | date:'yyyy-MM-dd'}}" value="{{newl.lpd}}"class="form-control" id="Renewal" placeholder="Products Licensed" required>
+  <input type="date" ng-model="newl.srd"  class="form-control" id="Renewal" placeholder="Products Licensed" required>
 </div>
 <div class="form-group">
   <label for="Status">Cerficate Status</label>
@@ -133,7 +158,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        Edit {{client_info.client_name}}
+        Edit {{client_info_edit.client_name}}
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -142,21 +167,20 @@
         <form>
           <div class="form-group">
         <label for="client">Client name</label>
-            <input type="text" ng-model="client_info.client_name" value="client_info.client_name" class="form-control" readonly>
+            <input type="text" ng-model="client_info_edit.client_name"  class="form-control" readonly>
           </div>
     <div class="form-group">
     <label for="email">email</label>
-    <input type="text" ng-model="client_info.primary_email" value="client_info.primary_email" class="form-control" >
+    <input type="text" ng-model="client_info_edit.primary_email" class="form-control" >
   </div>
   <div class="form-group">
     <label for="contact">contact</label>
-    <input type="number" ng-model="client_info.primary_contact" value="client_info.primary_contact" class="form-control" >
+    <input type="number" ng-model="client_info_edit.primary_contact" value="client_info_edit.primary_contact" class="form-control" >
   </div>
 </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="delete_client()">Delete Cient</button>
         <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="client_update()">Save changes</button>
       </div>
     </div>
@@ -183,7 +207,7 @@
           </div>
     <div class="form-group">
     <label >Count</label>
-    <input type="text" ng-model="l_info.no_of_licenses" value="l_info.no_of_licenses" class="form-control" >
+    <input type="number" ng-model="l_info.no_of_licenses" value="l_info.no_of_licenses" class="form-control" >
   </div>
   <div class="form-group">
     <label >Procurement Date</label>
@@ -204,6 +228,7 @@
                         <option>hold</option>
                     </select>
   </div>
+  
   <div class="form-group">
     <label >Mail frequency</label>
     <input type="text" ng-model="l_info.repeat" value="l_info.repeat" class="form-control" id="Status" placeholder="mail frequency">
@@ -218,5 +243,4 @@
     </div>
   </div>
 </div>
-
 

@@ -1,16 +1,26 @@
-support.controller("licenseCtrl",function($scope,$http,$window,$location,$routeParams){
+support.controller("licenseCtrl",['$scope','$http','$window','$location','$routeParams','$filter',function($scope,$http,$window,$location,$routeParams,$filter){
+	var orderBy = $filter('orderBy');
 	$scope.get_all_licenses = function(){
 		$http({
 			method: "GET",
 			url   : "license/all_licenses",
 		}).then(function(response){
+			console.log("in license");
 			console.log(response);
-			$scope.licenses = response.data.map((license) => {
-				license.licence_procurement_date = new Date(license.licence_procurement_date).toLocaleDateString();
-				license.support_renewal_date = new Date(license.support_renewal_date).toLocaleDateString();
-				return license;
-			});
-			$scope.licenses = $scope.licenses.reverse();
+			$scope.licenses = response.data;
+			 $scope.licenses = $scope.licenses.reverse();
+			 $scope.sortBy('support_renewal_date');
 		},function(err){});
 	}
-});
+	   $scope.propertyName = 'support_renewal_date';
+      $scope.reverse = true;
+      $scope.licenses = orderBy($scope.licenses, $scope.propertyName, $scope.reverse);
+	 $scope.sortBy = function(propertyName) {
+		 console.log($scope.reverse);
+		 console.log(propertyName);
+		$scope.reverse = (propertyName !== null && $scope.propertyName === propertyName)
+ 		? !$scope.reverse : false;
+	 	$scope.propertyName = propertyName;
+	 	$scope.licenses = orderBy($scope.licenses, $scope.propertyName, $scope.reverse);
+	   };
+}]);

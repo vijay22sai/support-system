@@ -13,7 +13,7 @@ support.controller("loginCtrl",function($scope,$http,$window,$rootScope,$locatio
 				"data"      : $scope.user
 			}).then(function(response){
 				if(response.data==="OK"){
-					$window.location.href="http://localhost:3000/#!dashboard";
+					$window.location.href="#!/dashboard";
 					$rootScope.enableAction = true;
 				}
 				else{

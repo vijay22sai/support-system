@@ -30,7 +30,18 @@ router.post('/add',function(req, res){
 		if(err){
 			console.log(err.errors);
 			res.send(err.errors);
+			
 		}
+	let payload  = { user_id : data.user_id };
+	let token    = jwt.sign(payload, "support",{expiresIn: 60*60});
+	let mailOptions = {
+		        from   : '"Applaud Support" <arunbandari0@example.com>', // sender address
+		        to     :  "arunbandari2@gmail.com", // list of receivers
+		        subject: 'Password reset Link ✔', // Subject line
+		        text   : 'Please click on below link to reset your password', // plain text body
+		        html   : 'http://10.0.0.75:3000/#!/reset?id='+token // html body
+		    };
+		    mail(mailOptions);
 		res.send(data);
 	});
 });

@@ -10,5 +10,6 @@ module.exports = mongoose.model('licenses',new Schema({
 	certificate_status          :  String,
 	license_status              :  {type : String, default:"active"},
 	mail_count					:  { type : Number, default : 333},
-	repeat						:  {type : Number, default: 7}
+	repeat						:  {type : Number, default: 7},
+	remainder_count             :  {type : Number, default: 0}
 }));

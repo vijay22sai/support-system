@@ -17,5 +17,24 @@ support.controller("serviceCtrl",function($scope,$http,$window,$location,$routeP
 				$scope.get_all_services();
 			},function(err){});
 		}
+		$scope.get_service = function(id){
+			$http({
+				method : "GET",
+				url    : "/service/one",
+				params : {"id":id}
+			}).then(function(response){
+				$scope.update_service = response.data;
+				console.log($scope.update_service);
+			},function(err){});
+		}
+		$scope.update_service_please = function(){
+			$http({
+				method : "POST",
+				url    : "/service/update",
+				data   : {"service":$scope.update_service}
+			}).then(function(response){
+				$scope.get_all_services();
+			},function(err){});
+		}
 
 });

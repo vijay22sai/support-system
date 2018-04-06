@@ -1,12 +1,15 @@
 let cron = require('node-cron');
-const express    = require('express');
-const router     = express.Router();
-const bodyParser = require('body-parser');
-const License    = require('../models/license_model');
-const Client     = require('../models/client_model');
+const express            = require('express');
+const router             = express.Router();
+const bodyParser         = require('body-parser');
+const License            = require('../models/license_model');
+const Client             = require('../models/client_model');
+const email_activity     = require('../models/email_activity_model');
+const email_recent_activity     = require('../models/email_recent_model');
 const mails      = require('./mails.js');
-cron.schedule('*/60 * * * *', function(){
-   let m_count; 
+let cron_job = cron.schedule('*/1 * * * *', function(){
+   console.log("in schedular");
+   let m_count,r_count; 
    let today = new Date();
    License.find({},function(err,data){
       data.forEach((license)=>{
@@ -23,12 +26,14 @@ cron.schedule('*/60 * * * *', function(){
          }
 
          //should get executed for 7 days(reset the count to one)
-         if(m_count>=license.repeat)
+         if(m_count>=license.repeat&&license.license_status!="active" && license.license_status!="blocked")
          {
             //sendmail and then
             mails(license);
-            License.updateOne({_id: license._id},{$set:{mail_count: 1}},function(err,data){
+            r_count=license.remainder_count+1;
+            License.updateOne({_id: license._id},{$set:{mail_count: 1,remainder_count : r_count}},function(err,data){
             console.log("set to 1 after increment reached 7");
+            email_activity_push(license);
             });
          }
 
@@ -36,13 +41,13 @@ cron.schedule('*/60 * * * *', function(){
          if(t >= 30 && license.license_status!="active")
          {
             console.log("every thing is fine");
-            state_change("active",license._id,333);
+            state_change("active",license,333);
             mails(license);
          }
          else if(t < 30 && t >= 0 && license.license_status!="pending")
          {
             console.log("pending");
-            state_change("pending",license._id,1);
+            state_change("pending",license,1);
             mails(license);
             //count starts from now
 
@@ -50,13 +55,13 @@ cron.schedule('*/60 * * * *', function(){
          else if(t < 0 && t >= -30 && license.license_status!="hold")
          {  
             console.log("hold");
-            state_change("hold",license._id,1);
+            state_change("hold",license,1);
             mails(license);
          }
          else if(t < -30&&license.license_status!="blocked")
         { 
           console.log("blocked");
-          state_change("blocked",license._id,-333); //-333 to identify license as blocked
+          state_change("blocked",license,-333); //-333 to identify license as blocked
            mails(license);
         }
       
@@ -64,12 +69,71 @@ cron.schedule('*/60 * * * *', function(){
    });
 
    //function to change the license status 
-    function state_change(status,id,count){
-      License.updateOne({_id:id}, {$set : {
+    function state_change(status,license,count){
+      License.updateOne({_id:license._id}, {$set : {
             license_status : status,
-            mail_count     : count 
+            mail_count     : count,
+            remainder_count : 1 
       }},function(err,data){
             console.log(data);
+            email_activity_push(license);
       });
    }
+
+   //function to push email activity and update recent email activity
+   function email_activity_push(license){
+      //console.log(license+"...license in push");
+      License.findOne({_id : license._id},function(err,data){
+         let new_activity = new email_activity({
+         license_id           : data._id,
+         client_id            : data.client_id,
+         action               : "Remainder "+ data.remainder_count +" for the product " +data.product+" with status "+ data.license_status+" is sent.",
+         remainder_count      : data.remainder_count,
+         time                 : new Date()
+      });
+
+       new_activity.save(function(err,data1){
+         email_recent_activity.findOne({l_id : license._id },function(err,data2){
+           // console.log(data2);
+            if(data2==null){
+                  let recent = new email_recent_activity({
+                  l_id                 : data._id,
+                  client_id            : license.client_id,
+                  action               : "Remainder "+ data.remainder_count +" for the product " +data.product+" with status "+ data.license_status+" is sent.",
+                  remainder_count      : data.remainder_count,
+                  time                 : new Date()
+                  }); 
+                  recent.save(function(err,recent_activity){
+            
+                  }) ;
+            }
+            else{
+                  email_recent_activity.updateOne({l_id : license._id },{$set :{
+                        action               : "Remainder "+ data.remainder_count +" for the product " +data.product+" with status "+ data.license_status+" is sent.",
+                        remainder_count      : data.remainder_count,
+                        time                 : new Date()
+                  }},function(err,data3){
+                     });
+            }
+         })
+       });
+     });
+   }
 });
+
+module.exports = function(setting)
+{
+  console.log("setting invoked");
+  console.log(setting);
+  if(setting === "true"){
+      cron_job.start();
+      
+  }
+  if(setting === "false"){
+      cron_job.stop();
+  }
+}
+
+
+
+ 

@@ -5,11 +5,11 @@
                     
                     <input type="search" name="search" ng-model="search_query" class="search panel-right" style="margin-left: 5px;" placeholder="Search">
                                       
-                    <select class="search panel-right" ng-model="selected_item" ng-change="filter_status()">
+                    <select class="search panel-right" ng-model="selected_item">
                         <option selected="selected"  value=""><span style="font-weight: normal;">All</span></option>
                         <option >active</option>
-                        <option>in-active</option>
                         <option>pending</option>
+                        <option>blocked</option>
                     </select>
                 </div>
 
@@ -20,34 +20,50 @@
                         <thead>
                                 <tr>
                                         <th>No.</th>
-                                        <th>Customer</th>
-                                        <th>Certificate Sent</th>
-                                        <th>Partners</th>
-                                        <th>Products Licensed</th>
-                                        <th>Contact Name</th>
-                                        <th>Email</th>
-                                        <th>Contact</th>
+                                        <th ng-click="sortBy('client_name')">Client Name
+                                          <span class="sortorder" ng-show="propertyName === 'client_name'" ng-class="{reverse: reverse}"></span>
+                                        </th>
+                                        <th ng-click="sortBy('partners')">Partners
+                                          <span class="sortorder" ng-show="propertyName === 'partners'" ng-class="{reverse: reverse}"></span>
+                                        </th>
+                                        <th ng-click="sortBy('product')">Products Licensed
+                                          <span class="sortorder" ng-show="propertyName === 'product'" ng-class="{reverse: reverse}"></span>
+                                        </th>
+                                        <th ng-click="sortBy('support_renewal_date')">Expiry
+                                            <span class="sortorder" ng-show="propertyName === 'support_renewal_date'" ng-class="{reverse: reverse}"></span>
+                                          </th> 
+                                        <th ng-click="sortBy('primary_contact_name')">Contact
+                                          <span class="sortorder" ng-show="propertyName === 'primary_contact_name'" ng-class="{reverse: reverse}"></span>
+                                        </th>
                                         <th>Notes</th>
                                         <th>Action</th>
                                     </tr>
                         </thead>
                         <tbody>
-                          <tr ng-repeat="client in clients  | filter : search_query">
+                          <tr ng-repeat="client in clients  | filter : search_query | filter : {status:selected_item}" class="{{client.status+'tr'}}">
                             <td>{{($index+1)}}</td>
-                            <td><a href="#!/client?id={{client._id}}"><img ng-src="uploads/{{client.logo}}" width="120px" height="100px"></a> </td>
-                            <td><span class="label label-success" style="font-size: 12px;">Yes</span></td>
+                            <td><a href="#!/client?id={{client._id}}"><img ng-src="uploads/{{client.logo}}" width="80px" height="80px"></a> </td>
+                            <!--<td><span class="label label-success" style="font-size: 12px;">Yes</span></td>-->
                             <td>{{client.partners}}</td>
                             <td>
-                                <span class="label license_badge" ng-repeat="x in client.license_array" style="display: block;background: #fff;margin-bottom: 3px;color: green;">
+                                <span class="label license_badge {{x.license_status+'label'}}" ng-repeat="x in client.license_array" style="display: block;background: #fff;margin-bottom: 3px;">
                                   {{x.product}} <span class="badge">{{x.no_of_licenses}}</span>
                                 </span>
                             </td>
-                            
-                            <td>{{client.primary_contact_name}}</td>
-                            <td><a target="_blank" href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to={{client.primary_email}}">{{client.primary_email}}</a></td>
-                            <td>{{client.primary_contact}}</td>
-                            <td></td>
-                            <td><a class="btn btn-primary" href="#!/client?id={{client._id}}">Edit</a></td>
+                              <td>
+                                <span data-toggle="tooltip" data-placement="bottom" title="{{client.expiry_product}}">
+  {{client.expiry_date | date : dd-MM-yyyy}}
+</span>
+                              </td>
+                            <td>{{client.primary_contact_name}}<br><a target="_blank" href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&to={{client.primary_email}}">{{client.primary_email}}</a><br>{{client.primary_contact}}</td>
+                          
+              
+                            <td ng-model="c[$index]" ng-keypress="update_comment(client._id)" class="comment-class"><i>{{client.comment}}</i>
+                              <br><p class="label label-primary open" style="cursor: pointer;" data-toggle="modal" data-target="#commentModal" ng-click="set_comment_text(client._id,client.comment)">Edit</p>
+                            </td>
+                            <td><a class="glyphicon glyphicon-align-justify" href="#!/client?id={{client._id}}"></a>
+
+                            </td>
                           </tr>
                           <tr>
                         </tbody>
@@ -117,6 +133,28 @@
 </div>
 
 
+
+<div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      Edit Comment
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form name="licenseform">
+        <textarea class="form-control" ng-model="comment.comment"></textarea>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <button type="button" class="btn btn-primary" data-dismiss="modal" ng-disabled="licenseform.$invalid" ng-click="update_comment(comment)">Save changes</button>
+    </div>
+  </div>
+</div>
+</div>
 
 
 

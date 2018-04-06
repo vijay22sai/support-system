@@ -1,7 +1,8 @@
-var express = require('express');
-var router  = express.Router();
-var jwt    = require('jsonwebtoken');
-var nodemailer = require('nodemailer');
+var express        = require('express');
+var router         = express.Router();
+var jwt            = require('jsonwebtoken');
+var nodemailer     = require('nodemailer');
+const log          = require('./activity_log');
 var cp=require('cookie-parser');
 router.use(cp());
 module.exports=function(mailOptions)

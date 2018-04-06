@@ -71,7 +71,7 @@ td, th{vertical-align: middle !important;text-align: center;}
     background-color: #fff;
     border: 1px solid rgba(0,0,0,0.1);
 }
-.license_badge{text-align: left;font-size: 12px;}
+.license_badge{text-align: right;font-size: 12px;}
 #client-form{
     padding:5%;
     border: 1px solid #DDD !important;
@@ -162,4 +162,37 @@ input:checked + .slider:before {
 }
 .pending{background: orange;}
 .active {background: green;}
-.blocked {background: red;}
+.blocked {background: black;}
+.hold {background: red;}
+.pendinglabel{color: orange;}
+.activelabel {color: green;}
+.blockedlabel {color: black;}
+.holdlabel{color: red;}
+.open{display: none;}
+.comment-class{color: #666;font-size: 12px;}
+.comment-class:hover .open, .comment-class:hover .open{display: inline-block;}
+.dropdown-menu>li>a:hover{color: #000 !important;}
+.sortorder:after {
+  content: '\25b2';  
+}
+.sortorder.reverse:after {
+  content: '\25bc';  
+}
+
+.glyphicon{
+  margin-right:0px;
+  margin-left:2px;
+}
+.notificationcount{
+  position: absolute;
+  background: red;
+  border-radius: 50%;
+  display: inline-block;
+  padding: 0.1em;
+  color: #f2f2f2;
+  top:-1px;
+}
+._active{border-bottom: 5px solid #fff;}
+.activetr { background: #fff; }
+.pendingtr{background: bisque;}
+.blockedtr{background: #e6e6e6;}

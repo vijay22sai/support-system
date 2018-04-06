@@ -3,78 +3,70 @@ const router     = express.Router();
 const bodyParser = require('body-parser');
 const License    = require('../models/license_model');
 const Client     = require('../models/client_model');
+const Email      = require('../models/mail_template_model');
 var nodemailer = require('nodemailer');
+const mail      = require('./mailer');
+let all_keys = [];
+var exp1=/{{[A-z_.]+}}/g;
+
+
 module.exports=function(license)
 {//function
-    let client,content;
+    let client,content,mailOptions;
+    License.schema.eachPath(function(path){
+    all_keys[path]=license[path];
+    });
     Client.findOne({_id : license.client_id},function(err,data){
         client=data;
-        console.log(client); 
+        Client.schema.eachPath(function(path){
+          all_keys["client_id."+path]=client[path];
+          });
+          console.log(all_keys);
     });
+    
+  
     var today = new Date();
     var renewal = new Date(license.support_renewal_date);
     var diffMs = (renewal - today); // milliseconds between now & Christmas
     var diffDays = Math.floor(diffMs / 86400000); // days
-   // var diffHrs = Math.floor((diffMs % 86400000) / 3600000); 
-    if(license.license_status=="pending")
-    content = '<h1> License status for the product '+license.product+" is "+ license.license_status+'</h1>'+
-    '<center><table border=0>'+'<tr><td>Company Name</td><td>'+"name"+'</td></tr>'+
-    '<tr><td>Product Name:</td><td>'+license.product+'</td></tr>'+
-    '<tr><td>No. of. Licenses:</td><td>'+license.no_of_licenses+'</td></tr>'+
-    '<tr><td>Renewal Date:</td><td>'+license.support_renewal_date+'</td></tr>'+
-    '<tr><td>Status:</td><td>'+license.license_status+'</td></tr>'+
-    '<tr><td>license will be on hold in :</td><td>'+Math.abs(diffDays)+" days"+'</td></tr>'+
-    '</table></center>';
+    let template_info,keys_from_content,temp="";
 
-    if(license.license_status=="hold")
-    content = '<h1> License status for the product '+license.product+" is "+ license.license_status+'</h1>'+
-    '<center><table border=0>'+'<tr><td>Company Name</td><td>'+"name"+'</td></tr>'+
-    '<tr><td>Product Name:</td><td>'+license.product+'</td></tr>'+
-    '<tr><td>No. of. Licenses:</td><td>'+license.no_of_licenses+'</td></tr>'+
-    '<tr><td>Renewal Date:</td><td>'+license.support_renewal_date+'</td></tr>'+
-    '<tr><td>Status:</td><td>'+license.license_status+'</td></tr>'+
-    '<tr><td>license will be blocked in :</td><td>'+Math.abs(diffDays)+" days"+'</td></tr>'+
-    '</table></center>';
+    Email.findOne({email_type : license.license_status},function(err,data){
+         if(err) throw err;
+        template_info = data;
+        temp = data.content;
+        let key = "",patterns=[];
 
-    if(license.license_status=="active")
-    content = '<h1> License status for the product '+license.product+" is "+ license.license_status+'</h1>'+
-    '<center><table border=0>'+'<tr><td>Company Name</td><td>'+"name"+'</td></tr>'+
-    '<tr><td>Product Name:</td><td>'+license.product+'</td></tr>'+
-    '<tr><td>No. of. Licenses:</td><td>'+license.no_of_licenses+'</td></tr>'+
-    '<tr><td>Renewal Date:</td><td>'+license.support_renewal_date+'</td></tr>'+
-    '<tr><td>Status:</td><td>'+license.license_status+'</td></tr>'+
-    '</table></center>';
-
-    if(license.license_status=="blocked")
-    content = '<h1> License status for the product '+license.product+" is "+ license.license_status+'</h1>';
-
-                    
-    let mailOptions = {
-        from   : '"APPLAUD SUPPORT " <arunbandari0@example.com>', // sender address
-        to     :  'bhargavi.ch17@gmail.com', // list of receivers
-        subject: ' your status for '+license.product, // Subject line
-        html   : content // plain text body
-    };
-    //mail start
-    var transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    service: 'Gmail' ,
-    port: 465   ,
-    secure: false,
-    requireTLS: true,
-      auth: {
-        user: 'arunbandari0@gmail.com',
-        pass: 'arun12345'
-      }//auth
-    });// createTransport
-    
-     transporter.sendMail(mailOptions, function(error, info){
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Email sent: ' + info.response);
-      }//else
-    });//sendMail
-//mail end
-} //service end
+        while((keys_from_content = exp1.exec(template_info.content))!==null){
+             patterns.push(keys_from_content[0]);
+              key = keys_from_content[0].substr(2,keys_from_content[0].length-4);
+              if(all_keys[key]!=null){
+                  let l = "{{"+key+"}}";
+                  template_info.content = template_info.content.replace(l,all_keys[key]);
+                 // console.log(template_info.content);
+              }
+        
+        }
+        console.log(patterns);
+        console.log("content... after replacing...."+template_info.content);
+        //patterns=[];
+        while((keys_from_content=exp1.exec(template_info.title))!==null){
+              console.log(keys_from_content[0]);
+              key=keys_from_content[0].substr(2,keys_from_content[0].length-4);
+              if(all_keys[key]!=null){
+                  let l ="{{"+key+"}}";
+                  template_info.title=template_info.title.replace(l,all_keys[key]);
+                 // console.log(template_info.title);
+              }
+        }
+    content = '<h1>'+template_info.title+'</h1><p>'+template_info.content+'</p>';
+     mailOptions = {
+      from   : '"APPLAUD SUPPORT " <arunbandari0@example.com>', // sender address
+      to     :  'bhargavi.ch17@gmail.com', // all_keys[client_id.primary_email]
+      subject: ' your status for '+license.product, // Subject line
+      html   : content // plain text body
+  };
+ mail(mailOptions);
+    });
+  }
 

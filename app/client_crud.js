@@ -5,7 +5,10 @@ const fs        = require('fs');
 const path      = require('path');
 const Client    = require('../models/client_model.js');
 const license   = require('../models/license_model.js');
-var multer      = require('multer')
+const log          = require('./activity_log');
+var multer      = require('multer');
+const c_parser  = require('cookie-parser');
+router.use(c_parser());
 var upload      = multer({ dest: 'public/uploads/' })
 
 // function to get all clients info
@@ -42,19 +45,11 @@ router.post('/add', upload.any() ,function(req,res){
 	});
 	console.log(client);
 	client.save((err, data) =>{
-		console.log(data);
+		log("Client "+data.client_name +" is added",req.cookies.token);
 		res.send(data);
 	}); 
 });
 
-//function to delete client
-router.get('/delete/:client_id',function(req,res){
-	console.log(req.params.client_id);
-	Client.remove({_id:req.params.client_id}, function(err, data){;
-		res.send(data);
-		//console.log(data);
-	});
-});
 
 //function to update client info
 router.post('/update_old/:update_id',function(req,res){
@@ -86,11 +81,22 @@ router.post('/update',function(req,res){
 				//other                       :  req.body.other
 				}
 			},(err, data) =>{
-					console.log(data);
+					log("Client "+req.body.client_name+"\'s profile is  updated ",req.cookies.token);
 					res.send(data);
 			  }
 	);
 });
 
+router.post('/update_comment',function(req,res) {
+	Client.updateOne({_id:req.body.id},{$set :{
+		comment : req.body.comment
+	}},function(err,data){
+		Client.findOne({_id:req.body.id},function(err,data){
+		log("Comment for "+data.client_name+" is updated to "+req.body.comment,req.cookies.token);
+		});
+		
+		res.send(data);
+	});
+});
 
 module.exports = router;
